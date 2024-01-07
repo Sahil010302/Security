@@ -1,0 +1,213 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:security/Guard/vendorform.dart';
+import 'package:line_icons/line_icons.dart';
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int _selectedIndex = 0;
+
+  // static const TextStyle optionStyle =
+  //     TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+  // static const List<Widget> _widgetOptions = <Widget>[
+  //   Text(
+  //     'Home',
+  //     style: optionStyle,
+  //   ),
+  //   Text(
+  //     'Likes',
+  //     style: optionStyle,
+  //   ),
+  //   Text(
+  //     'Search',
+  //     style: optionStyle,
+  //   ),
+  //   Text(
+  //     'Profile',
+  //     style: optionStyle,
+  //   ),
+  // ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xfff5f6fa),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text("Home page"),
+        centerTitle: true,
+        backgroundColor: const Color(0xfff5f6fa),
+      ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 22),
+                child: Text(
+                  "DAILY VENDORS",
+                  style: TextStyle(fontSize: 22),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  VendorsContainer(image: "milkman.png", name: "Milk Man"),
+                  VendorsContainer(image: "newspaper.jpg", name: "Newspaper ")
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  VendorsContainer(image: "maid.png", name: "Maid"),
+                  VendorsContainer(image: "car.png", name: "Car Washing")
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 22, top: 15),
+                child: Text(
+                  " XYZ Visitors",
+                  style: TextStyle(fontSize: 22),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  VendorsContainer(
+                      image: "Amazon.png", name: "Amazon Delivery"),
+                  VendorsContainer(image: "Zomato.png", name: "Zomato Delivery")
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  VendorsContainer(
+                      image: "Amazon.png", name: "Amazon Delivery"),
+                  VendorsContainer(image: "Zomato.png", name: "Zomato Delivery")
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      // Bottom Nav bar
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              color: Colors.black.withOpacity(.1),
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            child: GNav(
+              rippleColor: Colors.grey[300]!,
+              hoverColor: Colors.grey[100]!,
+              gap: 8,
+              activeColor: Colors.black,
+              iconSize: 24,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: Duration(milliseconds: 400),
+              tabBackgroundColor: Colors.grey[100]!,
+              color: Colors.black,
+              tabs: [
+                GButton(
+                  icon: LineIcons.home,
+                  text: 'Home',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Home(),
+                      ),
+                    );
+                  },
+                ),
+                GButton(
+                  icon: LineIcons.book,
+                  text: 'Register',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VendorForm(),
+                      ),
+                    );
+                  },
+                ),
+                const GButton(
+                  icon: LineIcons.searchengin,
+                  text: 'Verify',
+                ),
+                const GButton(
+                  icon: LineIcons.user,
+                  text: 'Profile',
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container VendorsContainer({required String image, required String name}) {
+    return Container(
+      margin: EdgeInsets.all(8),
+      height: 220,
+      width: 180,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.black26),
+          borderRadius: BorderRadius.circular(20),
+          color: Color.fromARGB(255, 237, 235, 235)),
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 2),
+            height: 130,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Image.asset("images/${image}"),
+          ),
+          Text(
+            name,
+            style: const TextStyle(
+                fontSize: 19,
+                // fontWeight: FontWeight.w600,
+                color: const Color.fromARGB(255, 48, 48, 48)),
+          ),
+          ElevatedButton(
+              onPressed: () {
+                print("View");
+              },
+              child: Text("View"))
+        ],
+      ),
+    );
+  }
+}
