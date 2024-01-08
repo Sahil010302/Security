@@ -1,18 +1,35 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:security/Guard/home.dart';
+import 'package:security/Guard/vendorform.dart';
+import 'package:security/Guard/view.dart';
 import 'package:security/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: FirebaseOptions(
+    options: const FirebaseOptions(
         apiKey: "AIzaSyBDUXGfoOaO-MqUvUXrXYXPvCDnZ3fwHcI",
         appId: "1:811120906245:android:181d13aed0abe56b1e8c6c",
         messagingSenderId: "811120906245",
         projectId: "security-1d5b8"),
   );
+
+  // QuerySnapshot snapshot =
+  //     await FirebaseFirestore.instance.collection("Users").get();
+
+  // print(snapshot.docs.toString());
+
+  // for (var doc in snapshot.docs) {
+  //   print(doc.data().toString());
+  // }
+
+  Map<String, dynamic> newUsers = {"name": "Tejas Dongre", "age": 23};
+
+  await FirebaseFirestore.instance.collection("User").add(newUsers);
+
   runApp(const MyApp());
 }
 

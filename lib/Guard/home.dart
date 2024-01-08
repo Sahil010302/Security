@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:security/Guard/vendorform.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:security/Guard/view.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,35 +15,18 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
-  // static const TextStyle optionStyle =
-  //     TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
-  // static const List<Widget> _widgetOptions = <Widget>[
-  //   Text(
-  //     'Home',
-  //     style: optionStyle,
-  //   ),
-  //   Text(
-  //     'Likes',
-  //     style: optionStyle,
-  //   ),
-  //   Text(
-  //     'Search',
-  //     style: optionStyle,
-  //   ),
-  //   Text(
-  //     'Profile',
-  //     style: optionStyle,
-  //   ),
-  // ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff5f6fa),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text("Home page"),
+        title: const Text(
+          "Home page",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+        ),
         centerTitle: true,
-        backgroundColor: const Color(0xfff5f6fa),
+        backgroundColor: Color.fromARGB(255, 182, 220, 238),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -116,58 +100,63 @@ class _HomeState extends State<Home> {
           ],
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-            child: GNav(
-              rippleColor: Colors.grey[300]!,
-              hoverColor: Colors.grey[100]!,
-              gap: 8,
-              activeColor: Colors.black,
-              iconSize: 24,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.grey[100]!,
-              color: Colors.black,
-              tabs: [
-                GButton(
-                  icon: LineIcons.home,
-                  text: 'Home',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Home(),
-                      ),
-                    );
-                  },
-                ),
-                GButton(
-                  icon: LineIcons.book,
-                  text: 'Register',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => VendorForm(),
-                      ),
-                    );
-                  },
-                ),
-                const GButton(
-                  icon: LineIcons.searchengin,
-                  text: 'Verify',
-                ),
-                const GButton(
-                  icon: LineIcons.user,
-                  text: 'Profile',
-                ),
-              ],
-              selectedIndex: _selectedIndex,
-              onTabChange: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
+          child: Container(
+            color: Color.fromARGB(255, 182, 220, 238),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+              child: GNav(
+                rippleColor: Colors.grey[300]!,
+                hoverColor: Colors.grey[100]!,
+                gap: 8,
+                activeColor: Colors.black,
+                iconSize: 24,
+                backgroundColor: Color.fromARGB(255, 182, 220, 238),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                duration: Duration(milliseconds: 400),
+                tabBackgroundColor: Colors.grey[100]!,
+                color: Colors.black,
+                tabs: [
+                  GButton(
+                    icon: LineIcons.home,
+                    text: 'Home',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Home(),
+                        ),
+                      );
+                    },
+                  ),
+                  GButton(
+                    icon: LineIcons.book,
+                    text: 'Register',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VendorForm(),
+                        ),
+                      );
+                    },
+                  ),
+                  const GButton(
+                    icon: LineIcons.searchengin,
+                    text: 'Verify',
+                  ),
+                  const GButton(
+                    icon: LineIcons.user,
+                    text: 'Profile',
+                  ),
+                ],
+                selectedIndex: _selectedIndex,
+                onTabChange: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+              ),
             ),
           ),
         ),
@@ -181,9 +170,9 @@ class _HomeState extends State<Home> {
       height: 220,
       width: 180,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.black26),
+          border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(20),
-          color: Color.fromARGB(255, 237, 235, 235)),
+          color: Color.fromARGB(60, 229, 228, 228)),
       child: Column(
         children: [
           Container(
@@ -203,7 +192,12 @@ class _HomeState extends State<Home> {
           ),
           ElevatedButton(
               onPressed: () {
-                print("View");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ViewDetails(),
+                  ),
+                );
               },
               child: Text("View"))
         ],

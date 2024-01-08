@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:security/Guard/home.dart';
-import 'package:security/Guard/registration.dart';
+import 'package:security/Guard/gardRegistration.dart';
 
 class UserLogin extends StatefulWidget {
   UserLogin({super.key});
@@ -51,20 +51,47 @@ class _UserLoginState extends State<UserLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff5f6fa),
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: Container(
+          margin: EdgeInsets.only(left: 5, bottom: 2),
+          height: 10,
+          width: 10,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.transparent,
+          ),
+          child: Image.asset(
+            "images/logo.png",
+            fit: BoxFit.cover,
+          ),
+        ),
         title: const Text(
-          "User Login",
+          "GuardianLock",
           style: TextStyle(fontFamily: "Roboto", fontSize: 25),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xfff5f6fa),
+        backgroundColor: Color.fromARGB(255, 182, 220, 238),
       ),
       body: SingleChildScrollView(
         child: Container(
+          height: 900,
+          decoration: const BoxDecoration(color: Colors.white
+              // gradient: LinearGradient(
+              //   colors: [
+              //     Colors.blue,
+              //     Colors.white,
+              //   ],
+              // ),
+              ),
           child: Column(
             children: [
+              const SizedBox(
+                height: 30,
+              ),
               Container(
+                margin: const EdgeInsets.only(left: 30),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(400),
                 ),
@@ -82,11 +109,19 @@ class _UserLoginState extends State<UserLogin> {
                         label: const Text(
                           "Email",
                           style: TextStyle(
-                              color: Color.fromARGB(255, 107, 101, 101),
+                              color: Color.fromARGB(255, 0, 0, 0),
                               fontSize: 20),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: const BorderSide(color: Colors.black),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: BorderSide(color: Colors.black, width: 3),
                         ),
                       ),
                     ),
@@ -100,11 +135,19 @@ class _UserLoginState extends State<UserLogin> {
                         label: const Text(
                           "Userpassword",
                           style: TextStyle(
-                              color: Color.fromARGB(255, 107, 101, 101),
+                              color: Color.fromARGB(255, 0, 0, 0),
                               fontSize: 20),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: BorderSide(color: Colors.black, width: 3),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: const BorderSide(color: Colors.black),
                         ),
                       ),
                     )
@@ -120,9 +163,9 @@ class _UserLoginState extends State<UserLogin> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Color(0xff5b6378),
-                  ),
+                      borderRadius: BorderRadius.circular(30),
+                      color: Color(0xff5b6378),
+                      border: Border.all(color: Colors.black)),
                   height: 50,
                   width: 100,
                   child: const Center(
@@ -143,7 +186,10 @@ class _UserLoginState extends State<UserLogin> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("New here ?? ", style: TextStyle(fontSize: 18)),
+                  const Text(
+                    "New here ?? ",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -153,7 +199,10 @@ class _UserLoginState extends State<UserLogin> {
                     },
                     child: const Text(
                       "Register Now !!",
-                      style: TextStyle(fontSize: 18, color: Colors.blue),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
                     ),
                   )
                 ],
