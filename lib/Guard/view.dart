@@ -3,7 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ViewDetails extends StatelessWidget {
-  const ViewDetails({super.key});
+  final String id;
+  final String vendorCategory;
+
+  ViewDetails({required this.id, required this.vendorCategory});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +14,7 @@ class ViewDetails extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: Container(
-          margin: EdgeInsets.only(left: 5, bottom: 2),
+          margin: const EdgeInsets.only(left: 5, bottom: 2),
           height: 10,
           width: 10,
           decoration: BoxDecoration(
@@ -28,7 +31,7 @@ class ViewDetails extends StatelessWidget {
           style: TextStyle(fontFamily: "Roboto", fontSize: 25),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 182, 220, 238),
+        backgroundColor: const Color.fromARGB(255, 182, 220, 238),
       ),
       body: SafeArea(
         child: Padding(
@@ -36,8 +39,11 @@ class ViewDetails extends StatelessWidget {
           child: Column(
             children: [
               StreamBuilder<QuerySnapshot>(
-                stream:
-                    FirebaseFirestore.instance.collection("Vendor").snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection("Vendor")
+                    .doc(id)
+                    .collection(vendorCategory)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.active) {
                     if (snapshot.hasData && snapshot.data != null) {
@@ -58,10 +64,10 @@ class ViewDetails extends StatelessWidget {
                               child: ListTile(
                                 trailing:
                                     const Icon(CupertinoIcons.chevron_right),
-                                leading: const CircleAvatar(
+                                leading: CircleAvatar(
                                   radius: 30,
-                                  backgroundImage: NetworkImage(
-                                      "https://www.pngall.com/wp-content/uploads/5/Profile.png"),
+                                  backgroundImage:
+                                      NetworkImage(vendorss["profilePic"]),
                                 ),
                                 title: Text(vendorss["name"]),
                                 subtitle: Text(vendorss["buldingName"]),

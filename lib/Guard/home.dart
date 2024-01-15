@@ -49,15 +49,67 @@ class _HomeState extends State<Home> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  VendorsContainer(image: "milkman.png", name: "Milk Man"),
-                  VendorsContainer(image: "newspaper.jpg", name: "Newspaper ")
+                  VendorsContainer(
+                      image: "milkman.png",
+                      name: "Milk Man",
+                      function: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewDetails(
+                              id: "01",
+                              vendorCategory: '01) MilkMan',
+                            ),
+                          ),
+                        );
+                      }),
+                  VendorsContainer(
+                      image: "newspaper.jpg",
+                      name: "Newspaper",
+                      function: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewDetails(
+                              id: "02",
+                              vendorCategory: '02) NewsPaper',
+                            ),
+                          ),
+                        );
+                      })
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  VendorsContainer(image: "maid.png", name: "Maid"),
-                  VendorsContainer(image: "car.png", name: "Car Washing")
+                  VendorsContainer(
+                      image: "maid.png",
+                      name: "Maid",
+                      function: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewDetails(
+                              id: "03",
+                              vendorCategory: '03) Maid',
+                            ),
+                          ),
+                        );
+                      }),
+                  VendorsContainer(
+                      image: "car.png",
+                      name: "Car Washing",
+                      function: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewDetails(
+                              id: "04",
+                              vendorCategory: '04) CarWashing',
+                            ),
+                          ),
+                        );
+                      })
                 ],
               ),
               const Padding(
@@ -71,16 +123,26 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   VendorsContainer(
-                      image: "Amazon.png", name: "Amazon Delivery"),
-                  VendorsContainer(image: "Zomato.png", name: "Zomato Delivery")
+                      image: "Amazon.png",
+                      name: "Amazon Delivery",
+                      function: () {}),
+                  VendorsContainer(
+                      image: "Zomato.png",
+                      name: "Zomato Delivery",
+                      function: () {})
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   VendorsContainer(
-                      image: "Amazon.png", name: "Amazon Delivery"),
-                  VendorsContainer(image: "Zomato.png", name: "Zomato Delivery")
+                      image: "Amazon.png",
+                      name: "Amazon Delivery",
+                      function: () {}),
+                  VendorsContainer(
+                      image: "Zomato.png",
+                      name: "Zomato Delivery",
+                      function: () {})
                 ],
               ),
             ],
@@ -164,7 +226,10 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Container VendorsContainer({required String image, required String name}) {
+  Container VendorsContainer(
+      {required String image,
+      required String name,
+      required VoidCallback function}) {
     return Container(
       margin: EdgeInsets.all(8),
       height: 220,
@@ -190,16 +255,7 @@ class _HomeState extends State<Home> {
                 // fontWeight: FontWeight.w600,
                 color: const Color.fromARGB(255, 48, 48, 48)),
           ),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ViewDetails(),
-                  ),
-                );
-              },
-              child: Text("View"))
+          ElevatedButton(onPressed: function, child: Text("View"))
         ],
       ),
     );

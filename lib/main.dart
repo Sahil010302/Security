@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:security/Guard/home.dart';
 import 'package:security/Guard/vendorform.dart';
+import 'package:security/Guard/verify.dart';
 import 'package:security/Guard/view.dart';
 import 'package:security/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,16 +12,22 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-        apiKey: "AIzaSyBDUXGfoOaO-MqUvUXrXYXPvCDnZ3fwHcI",
-        appId: "1:811120906245:android:181d13aed0abe56b1e8c6c",
-        messagingSenderId: "811120906245",
-        projectId: "security-1d5b8"),
+      apiKey: "AIzaSyBDUXGfoOaO-MqUvUXrXYXPvCDnZ3fwHcI",
+      appId: "1:811120906245:android:181d13aed0abe56b1e8c6c",
+      messagingSenderId: "811120906245",
+      projectId: "security-1d5b8",
+      storageBucket: 'security-1d5b8.appspot.com',
+    ),
   );
 
-  // QuerySnapshot snapshot =
-  //     await FirebaseFirestore.instance.collection("Users").get();
+  // DocumentSnapshot snapshot = await FirebaseFirestore.instance
+  //     .collection("Vendor")
+  //     .doc("01")
+  //     .collection("MilkMan")
+  //     .doc("0001")
+  //     .get();
 
-  // print(snapshot.docs.toString());
+  // print(snapshot.data().toString());
 
   // for (var doc in snapshot.docs) {
   //   print(doc.data().toString());
@@ -39,7 +46,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: (FirebaseAuth.instance.currentUser != null) ? Home() : LoginPage(),
+      // home: (FirebaseAuth.instance.currentUser != null) ? Home() : LoginPage(),
+      home: VendorForm(),
     );
   }
 }
