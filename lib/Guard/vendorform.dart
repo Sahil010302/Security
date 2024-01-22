@@ -21,8 +21,7 @@ class VendorForm extends StatefulWidget {
 class _VendorFormState extends State<VendorForm> {
   TextEditingController Name = new TextEditingController();
   TextEditingController Date = new TextEditingController();
-  TextEditingController Time = new TextEditingController();
-  TextEditingController VisitingTo = new TextEditingController();
+
   TextEditingController BuildinagName = new TextEditingController();
   TextEditingController Flatno = new TextEditingController();
   TextEditingController AdharCard = new TextEditingController();
@@ -37,15 +36,16 @@ class _VendorFormState extends State<VendorForm> {
     '01) MilkMan',
     '02) NewsPaper',
     '03) Maid',
-    '04) CarWashing'
+    '04) CarWashing',
+    '05) Laundary',
+    '06) Tutorial'
   ];
   var currentselected;
 
   void Vendor(BuildContext ctx) async {
     String name = Name.text.trim();
     String date = Date.text.trim();
-    String time = Time.text.trim();
-    String visiting = VisitingTo.text.trim();
+
     String buildingname = BuildinagName.text.trim();
     String flatno = Flatno.text.trim();
     String updateFlatno = updateFlatNo.text.trim();
@@ -55,8 +55,6 @@ class _VendorFormState extends State<VendorForm> {
 
     if (name != "" &&
         date != "" &&
-        time != "" &&
-        visiting != "" &&
         buildingname != "" &&
         flatno != "" &&
         adharCard != "" &&
@@ -94,8 +92,6 @@ class _VendorFormState extends State<VendorForm> {
         } else {
           Map<String, dynamic> Vendors = {
             "name": name,
-            "time": time,
-            "visiting": visiting,
             "flatNo": [flatno],
             "date": date,
             "profilePic": downloadUrl,
@@ -437,18 +433,6 @@ class _VendorFormState extends State<VendorForm> {
                 height: 10,
               ),
               vendorDetails(
-                controller: VisitingTo,
-                hinttext: "Enter Name OF The Person Vendor Is Visiting To ",
-                labletext: "Visiting To",
-                icons: const Icon(
-                  CupertinoIcons.person_2,
-                  color: Colors.blue,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              vendorDetails(
                 controller: BuildinagName,
                 hinttext: "Enter Building Name  ",
                 labletext: "Building Name",
@@ -478,18 +462,6 @@ class _VendorFormState extends State<VendorForm> {
                 labletext: "Date",
                 icons: const Icon(
                   CupertinoIcons.sun_dust,
-                  color: Colors.blue,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              vendorDetails(
-                controller: Time,
-                hinttext: " 9:55 am",
-                labletext: "Time",
-                icons: const Icon(
-                  CupertinoIcons.time,
                   color: Colors.blue,
                 ),
               ),

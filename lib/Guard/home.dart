@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:security/Guard/checkout.dart';
+import 'package:security/Guard/updatedetails.dart';
 import 'package:security/Guard/vendorform.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:security/Guard/verify.dart';
 import 'package:security/Guard/view.dart';
 
 class Home extends StatefulWidget {
@@ -26,7 +29,7 @@ class _HomeState extends State<Home> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 182, 220, 238),
+        backgroundColor: const Color.fromARGB(255, 182, 220, 238),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -112,6 +115,39 @@ class _HomeState extends State<Home> {
                       })
                 ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  VendorsContainer(
+                      image: "laundary.jpg",
+                      name: "Laundary",
+                      function: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewDetails(
+                              id: "05",
+                              vendorCategory: '05) Laundary',
+                            ),
+                          ),
+                        );
+                      }),
+                  VendorsContainer(
+                      image: "tutorial.jpg",
+                      name: "Tutorial",
+                      function: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewDetails(
+                              id: "06",
+                              vendorCategory: '06) Tutorial',
+                            ),
+                          ),
+                        );
+                      })
+                ],
+              ),
               const Padding(
                 padding: EdgeInsets.only(left: 22, top: 15),
                 child: Text(
@@ -163,7 +199,7 @@ class _HomeState extends State<Home> {
         ),
         child: SafeArea(
           child: Container(
-            color: Color.fromARGB(255, 182, 220, 238),
+            color: const Color.fromARGB(255, 182, 220, 238),
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
@@ -173,9 +209,10 @@ class _HomeState extends State<Home> {
                 gap: 8,
                 activeColor: Colors.black,
                 iconSize: 24,
-                backgroundColor: Color.fromARGB(255, 182, 220, 238),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                duration: Duration(milliseconds: 400),
+                backgroundColor: const Color.fromARGB(255, 182, 220, 238),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                duration: const Duration(milliseconds: 400),
                 tabBackgroundColor: Colors.grey[100]!,
                 color: Colors.black,
                 tabs: [
@@ -203,13 +240,41 @@ class _HomeState extends State<Home> {
                       );
                     },
                   ),
-                  const GButton(
+                  GButton(
                     icon: LineIcons.searchengin,
-                    text: 'Verify',
+                    text: 'Update',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UpdateDetails(),
+                        ),
+                      );
+                    },
                   ),
-                  const GButton(
+                  GButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Verify(),
+                        ),
+                      );
+                    },
                     icon: LineIcons.user,
                     text: 'Profile',
+                  ),
+                  GButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Checkout(),
+                        ),
+                      );
+                    },
+                    icon: LineIcons.list,
+                    text: 'Checkin',
                   ),
                 ],
                 selectedIndex: _selectedIndex,

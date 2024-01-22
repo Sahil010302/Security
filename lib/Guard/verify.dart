@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:security/Guard/checkin.dart';
 
 class Verify extends StatefulWidget {
   const Verify({super.key});
@@ -14,7 +19,9 @@ class _VerifyState extends State<Verify> {
     '01) MilkMan',
     '02) NewsPaper',
     '03) Maid',
-    '04) CarWashing'
+    '04) CarWashing',
+    '05) Laundary',
+    '06) Tutorial'
   ];
   var currentselected;
   TextEditingController code = new TextEditingController();
@@ -24,17 +31,45 @@ class _VerifyState extends State<Verify> {
     String Code = code.text.toString();
     String ID = id.text.toString();
 
-    FirebaseFirestore.instance
-        .collection("Vendor")
+    var maidSnapshot = await FirebaseFirestore.instance
+        .collection('Vendor')
         .doc(ID)
         .collection(currentselected)
-        .where(Code,
-            isEqualTo: FirebaseFirestore.instance
-                .collection("Vendor")
-                .doc(ID)
-                .collection(currentselected)
-                .doc(Code)
-                .get());
+        .doc(Code)
+        .get();
+
+    if (maidSnapshot.exists) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        text: ' successfully ',
+        autoCloseDuration: const Duration(seconds: 3),
+        showConfirmBtn: false,
+      );
+      Timer(
+        const Duration(seconds: 3),
+        () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CheckIn(
+                Id: ID,
+                code: Code,
+                current: currentselected,
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        text: 'Error ',
+        autoCloseDuration: const Duration(seconds: 3),
+        showConfirmBtn: false,
+      );
+    }
   }
 
   @override
@@ -101,7 +136,7 @@ class _VerifyState extends State<Verify> {
                 hinttext: "Enter Vendors Name",
                 labletext: "ID",
                 icons: const Icon(
-                  CupertinoIcons.person,
+                  CupertinoIcons.number_circle,
                   color: Colors.blue,
                 ),
               ),
@@ -109,15 +144,30 @@ class _VerifyState extends State<Verify> {
                 height: 10,
               ),
               vendorDetails(
-                controller: id,
+                controller: code,
                 hinttext: "Enter Vendors Name",
                 labletext: "Code",
                 icons: const Icon(
-                  CupertinoIcons.person,
+                  CupertinoIcons.number,
                   color: Colors.blue,
                 ),
               ),
-              ElevatedButton(onPressed: () {}, child: Text("Submit"))
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateColor.resolveWith((states) => Colors.blue),
+                ),
+                onPressed: () {
+                  VerifyVendor();
+                },
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
             ],
           ),
         ),
