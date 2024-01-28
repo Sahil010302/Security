@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:security/Guard/checkout.dart';
 import 'package:security/Guard/home.dart';
+
 import 'package:security/Guard/updatedetails.dart';
 import 'package:security/Guard/vendorform.dart';
 import 'package:security/Guard/verify.dart';
@@ -47,8 +49,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // home: (FirebaseAuth.instance.currentUser != null) ? Home() : LoginPage(),
-      home: Verify(),
+      home: (FirebaseAuth.instance.currentUser != null) ? Home() : LoginPage(),
+      // home: Checkout(),
     );
   }
 }

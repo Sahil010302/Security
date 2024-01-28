@@ -89,6 +89,10 @@ flutter:
     - family: Roboto
       fonts:
         - asset: fonts/RobotoCondensed-Italic-VariableFont_wght.ttf
+
+    - family: Oswald
+      fonts:
+        - asset: fonts/Oswald-VariableFont_wght.ttf
         # - asset: fonts/Schyler-Italic.ttf
         #   style: italic
   #   - family: Trajan Pro

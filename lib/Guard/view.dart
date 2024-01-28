@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:security/Guard/details.dart';
 
 class ViewDetails extends StatelessWidget {
   final String id;
@@ -62,8 +63,20 @@ class ViewDetails extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: ListTile(
-                                trailing:
-                                    const Icon(CupertinoIcons.chevron_right),
+                                trailing: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Details(
+                                              Id: id,
+                                              code: vendorss["pin"],
+                                              current: vendorCategory),
+                                        ),
+                                      );
+                                    },
+                                    child: const Icon(
+                                        CupertinoIcons.chevron_right)),
                                 leading: CircleAvatar(
                                   radius: 30,
                                   backgroundImage:

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         title: const Text(
           "Home page",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
@@ -31,6 +32,7 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 182, 220, 238),
       ),
+      drawer: Drawers(),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -264,18 +266,6 @@ class _HomeState extends State<Home> {
                     icon: LineIcons.user,
                     text: 'Profile',
                   ),
-                  GButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Checkout(),
-                        ),
-                      );
-                    },
-                    icon: LineIcons.list,
-                    text: 'Checkin',
-                  ),
                 ],
                 selectedIndex: _selectedIndex,
                 onTabChange: (index) {
@@ -325,4 +315,140 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
+
+class Drawers extends StatelessWidget {
+  const Drawers({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    void signUserOut() async {
+      FirebaseAuth.instance.signOut().then((value) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      });
+    }
+
+    final user = FirebaseAuth.instance.currentUser!;
+    String email = user.email.toString();
+    return Drawer(
+      backgroundColor: Color.fromARGB(255, 240, 241, 243),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            UserAccountsDrawerHeader(
+              currentAccountPicture: const CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.white,
+                backgroundImage: NetworkImage(
+                  "https://icon-library.com/images/profile-icon-vector/profile-icon-vector-7.jpg",
+                ),
+              ),
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 184, 200, 228),
+              ),
+              accountName: Text(
+                user.displayName!,
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontFamily: "Roboto",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              accountEmail: Text(
+                user.email!,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Colors.black87,
+                  fontFamily: "Roboto",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            listtile("Vendor Form", () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VendorForm(),
+                ),
+              );
+            }),
+            Divider(),
+            listtile("Update Details", () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UpdateDetails(),
+                ),
+              );
+            }),
+            Divider(),
+            listtile("Verify Vendor", () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Verify(),
+                ),
+              );
+            }),
+            Divider(),
+            listtile("Check In", () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Checkout(),
+                ),
+              );
+            }),
+            Divider(),
+            listtile(
+              "Check Out Log",
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Checkout()),
+                );
+              },
+            ),
+            Divider(),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateColor.resolveWith((states) => Colors.red)),
+              onPressed: () {
+                signUserOut();
+              },
+              child: const Text(
+                "Sign Out",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+ListTile listtile(
+  String title,
+  VoidCallback function,
+) {
+  return ListTile(
+    trailing: IconButton(
+      icon: const Icon(
+        CupertinoIcons.chevron_right,
+      ),
+      onPressed: function,
+    ),
+    title: Text(
+      title,
+      style: const TextStyle(
+        fontSize: 21,
+        color: Colors.black87,
+        fontFamily: "Roboto",
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  );
 }

@@ -1,34 +1,25 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:security/Guard/home.dart';
-import 'package:security/const.dart';
 
-class CheckIn extends StatefulWidget {
+class Details extends StatefulWidget {
   final String Id;
   final String code;
   final String current;
-  CheckIn(
+  Details(
       {required String this.Id,
       required String this.code,
       required String this.current});
 
   @override
-  State<CheckIn> createState() => _CheckInState();
+  State<Details> createState() => _DetailsState();
 }
 
-class _CheckInState extends State<CheckIn> {
-  var min;
-  var date;
+class _DetailsState extends State<Details> {
   @override
   void initState() {
     fetchDetails();
+    // TODO: implement initState
     super.initState();
   }
 
@@ -38,41 +29,6 @@ class _CheckInState extends State<CheckIn> {
   String BuildingName = "";
   List FlatNo = [];
   String url = "";
-  late String checkIn;
-
-  void Checkin() async {
-    Map<String, dynamic> checkinn = {
-      "name": Name,
-      "profilePic": url,
-      "Checkin": checkIn,
-      "Checkout": '',
-      "category": widget.current,
-      "flatNo": FlatNo[0],
-    };
-    await FirebaseFirestore.instance
-        .collection("CheckIn")
-        .doc(date)
-        .collection(date)
-        .doc(checkIn) // Pending
-        .set(checkinn);
-
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.success,
-      text: ' successfully ',
-      autoCloseDuration: const Duration(seconds: 3),
-      showConfirmBtn: false,
-    );
-
-    Timer(Duration(seconds: 3), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Home(),
-        ),
-      );
-    });
-  }
 
   void fetchDetails() async {
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
@@ -114,17 +70,6 @@ class _CheckInState extends State<CheckIn> {
 
   @override
   Widget build(BuildContext context) {
-    var time = DateTime.now();
-
-    DateTime checkinDate =
-        DateTime(time.year, time.month, time.day); // 2024-01-27 00:00:00.000
-    // Formated time this is use to get only date from both date aand time
-    String formattedDate =
-        '${time.year}-${_twoDigits(time.month)}-${_twoDigits(time.day)}'; // 2024-01-27
-
-    // Format Time from Date
-    String formattedTime = '${time.hour}:${_twoDigits(time.minute)}'; //13:02
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -268,55 +213,10 @@ class _CheckInState extends State<CheckIn> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.red),
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      "Cancle",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.green),
-                    ),
-                    onPressed: () {
-                      checkIn = formattedTime;
-                      date = formattedDate;
-                      print(formattedTime);
-                      Checkin();
-                    },
-                    child: const Text(
-                      "Check In",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              )
             ],
           ),
         ),
       )),
     );
   }
-}
-
-String _twoDigits(int n) {
-  if (n >= 10) return '$n';
-  return '0$n';
 }
