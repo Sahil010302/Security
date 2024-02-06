@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:security/login/gardLogin.dart';
 import 'package:security/login/user.dart';
 
 class LoginPage extends StatelessWidget {
@@ -10,9 +11,10 @@ class LoginPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         child: Container(
+          height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.white, Colors.blueAccent],
+              colors: [Colors.white, Color.fromARGB(255, 156, 196, 214)],
             ),
           ),
           child:
@@ -54,7 +56,7 @@ class LoginPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => UserLogin(),
+                    builder: (context) => GuardLogin(),
                   ),
                 );
               },
@@ -84,7 +86,12 @@ class LoginPage extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                print("User");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserLogin(),
+                  ),
+                );
               },
               child: Container(
                 margin: const EdgeInsets.only(top: 30),

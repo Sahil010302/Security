@@ -1,18 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:security/Guard/home.dart';
-import 'package:security/User/home.dart';
 import 'package:security/login/gardRegistration.dart';
-import 'package:security/login/userRegister.dart';
 
-class UserLogin extends StatefulWidget {
-  UserLogin({super.key});
+class GuardLogin extends StatefulWidget {
+  GuardLogin({super.key});
 
   @override
-  State<UserLogin> createState() => _UserLoginState();
+  State<GuardLogin> createState() => _UserLoginState();
 }
 
-class _UserLoginState extends State<UserLogin> {
+class _UserLoginState extends State<GuardLogin> {
   TextEditingController Email = new TextEditingController();
   TextEditingController Password = new TextEditingController();
 
@@ -41,9 +39,7 @@ class _UserLoginState extends State<UserLogin> {
           Navigator.popUntil(context, (route) => route.isFirst);
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(
-              builder: (context) => UserHome(),
-            ),
+            MaterialPageRoute(builder: (context) => Home()),
           );
         }
       } on FirebaseAuthException catch (ex) {
@@ -76,7 +72,7 @@ class _UserLoginState extends State<UserLogin> {
           style: TextStyle(fontFamily: "Roboto", fontSize: 25),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 182, 220, 238),
+        backgroundColor: const Color.fromARGB(255, 182, 220, 238),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -198,7 +194,7 @@ class _UserLoginState extends State<UserLogin> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => UserRegis()),
+                        MaterialPageRoute(builder: (context) => GuardRegis()),
                       );
                     },
                     child: const Text(

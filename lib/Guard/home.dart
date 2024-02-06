@@ -331,7 +331,7 @@ class Drawers extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser!;
     String email = user.email.toString();
     return Drawer(
-      backgroundColor: Color.fromARGB(255, 240, 241, 243),
+      backgroundColor: Colors.white,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -344,7 +344,7 @@ class Drawers extends StatelessWidget {
                 ),
               ),
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 184, 200, 228),
+                color: Color.fromARGB(255, 182, 220, 238),
               ),
               accountName: Text(
                 user.displayName!,

@@ -7,6 +7,7 @@ import 'package:security/Guard/updatedetails.dart';
 import 'package:security/Guard/vendorform.dart';
 import 'package:security/Guard/verify.dart';
 import 'package:security/Guard/view.dart';
+import 'package:security/User/home.dart';
 import 'package:security/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,19 +24,6 @@ void main() async {
     ),
   );
 
-  // DocumentSnapshot snapshot = await FirebaseFirestore.instance
-  //     .collection("Vendor")
-  //     .doc("01")
-  //     .collection("MilkMan")
-  //     .doc("0001")
-  //     .get();
-
-  // print(snapshot.data().toString());
-
-  // for (var doc in snapshot.docs) {
-  //   print(doc.data().toString());
-  // }
-
   Map<String, dynamic> newUsers = {"name": "Tejas Dongre", "age": 23};
 
   await FirebaseFirestore.instance.collection("User").add(newUsers);
@@ -49,8 +37,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: (FirebaseAuth.instance.currentUser != null) ? Home() : LoginPage(),
-      // home: Checkout(),
+      home: (FirebaseAuth.instance.currentUser != null)
+          ? UserHome()
+          : LoginPage(),
+      // home: LoginPage(),
     );
   }
 }

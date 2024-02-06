@@ -2,16 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:security/login/gardLogin.dart';
 import 'package:security/login/user.dart';
 
-class UserRegi extends StatefulWidget {
-  const UserRegi({super.key});
+class UserRegis extends StatefulWidget {
+  const UserRegis({super.key});
 
   @override
-  State<UserRegi> createState() => _UserRegiState();
+  State<UserRegis> createState() => _UserRegiState();
 }
 
-class _UserRegiState extends State<UserRegi> {
+class _UserRegiState extends State<UserRegis> {
   TextEditingController Email = new TextEditingController();
   TextEditingController Password = new TextEditingController();
   TextEditingController cPassword = new TextEditingController();
@@ -21,7 +22,7 @@ class _UserRegiState extends State<UserRegi> {
   TextEditingController Phone = new TextEditingController();
   TextEditingController Work = new TextEditingController();
 
-  void GuardDetail() async {
+  void UserDetails() async {
     String email = Email.text.trim();
     String password = Password.text.trim();
     String cpassword = cPassword.text.trim();
@@ -51,7 +52,7 @@ class _UserRegiState extends State<UserRegi> {
           "password": password
         };
 
-        await FirebaseFirestore.instance.collection("GuardDetails").add(Guard);
+        await FirebaseFirestore.instance.collection("UserDetails").add(Guard);
       }
     }
   }
@@ -97,7 +98,11 @@ class _UserRegiState extends State<UserRegi> {
             .createUserWithEmailAndPassword(email: email, password: password);
         if (userCredential.user != null) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => UserLogin()));
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserLogin(),
+            ),
+          );
         }
       } on FirebaseAuthException catch (ex) {
         print(ex.code.toString());
@@ -192,8 +197,8 @@ class _UserRegiState extends State<UserRegi> {
                     ),
                     guardDetails(
                       controller: Work,
-                      labletext: "Previously Work At  ",
-                      hinttext: "Previously work at ",
+                      labletext: "Flat No  ",
+                      hinttext: "Enter your flat no",
                       icons: const Icon(CupertinoIcons.location),
                     ),
                     const SizedBox(
@@ -229,7 +234,7 @@ class _UserRegiState extends State<UserRegi> {
                     GestureDetector(
                       onTap: () {
                         Createaccount();
-                        GuardDetail();
+                        UserDetails();
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -250,6 +255,9 @@ class _UserRegiState extends State<UserRegi> {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    )
                   ],
                 ),
               ),
