@@ -9,9 +9,11 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SingleChildScrollView(
+      body: 
+      SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.white, Color.fromARGB(255, 156, 196, 214)],
@@ -22,11 +24,12 @@ class LoginPage extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
+            
             Container(
               margin: const EdgeInsets.only(left: 18),
               height: 350,
               child: Image.asset(
-                "images/logo.png",
+                "images/logo1.png",
                 fit: BoxFit.cover,
               ),
             ),

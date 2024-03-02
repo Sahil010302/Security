@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:security/Guard/checkout.dart';
+import 'package:security/Guard/logs.dart';
 import 'package:security/Guard/updatedetails.dart';
 import 'package:security/Guard/vendorform.dart';
 import 'package:line_icons/line_icons.dart';
@@ -34,6 +35,7 @@ class _HomeState extends State<Home> {
       ),
       drawer: Drawers(),
       body: SingleChildScrollView(
+        
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -347,7 +349,7 @@ class Drawers extends StatelessWidget {
                 color: Color.fromARGB(255, 182, 220, 238),
               ),
               accountName: Text(
-                user.displayName!,
+                "Raj",
                 style: const TextStyle(
                   fontSize: 20,
                   color: Colors.black,
@@ -406,7 +408,7 @@ class Drawers extends StatelessWidget {
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Checkout()),
+                  MaterialPageRoute(builder: (context) => Logs()),
                 );
               },
             ),

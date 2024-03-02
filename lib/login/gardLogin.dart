@@ -4,30 +4,34 @@ import 'package:security/Guard/home.dart';
 import 'package:security/login/gardRegistration.dart';
 
 class GuardLogin extends StatefulWidget {
-  GuardLogin({super.key});
+  GuardLogin({Key? key});
 
   @override
   State<GuardLogin> createState() => _UserLoginState();
 }
 
 class _UserLoginState extends State<GuardLogin> {
-  TextEditingController Email = new TextEditingController();
-  TextEditingController Password = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  bool _obscureText = true; // Define the obscureText variable here
 
   void login() async {
-    String email = Email.text.trim();
-    String password = Password.text.trim();
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+
     if (email == "" || password == "") {
-      const incompleteFields = SnackBar(
-        duration: Duration(seconds: 3),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.all(15),
-        content: Text(
-          "Fill all the field",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.all(15),
+          content: Text(
+            "Fill all the fields",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       );
@@ -35,6 +39,7 @@ class _UserLoginState extends State<GuardLogin> {
       try {
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
+
         if (userCredential.user != null) {
           Navigator.popUntil(context, (route) => route.isFirst);
           Navigator.pushReplacement(
@@ -77,14 +82,9 @@ class _UserLoginState extends State<GuardLogin> {
       body: SingleChildScrollView(
         child: Container(
           height: 900,
-          decoration: const BoxDecoration(color: Colors.white
-              // gradient: LinearGradient(
-              //   colors: [
-              //     Colors.blue,
-              //     Colors.white,
-              //   ],
-              // ),
-              ),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
           child: Column(
             children: [
               const SizedBox(
@@ -103,21 +103,20 @@ class _UserLoginState extends State<GuardLogin> {
                 child: Column(
                   children: [
                     TextField(
-                      controller: Email,
+                      controller: emailController,
                       decoration: InputDecoration(
                         hintText: "User login",
-                        label: const Text(
-                          "Email",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 20),
+                        labelText: "Email",
+                        labelStyle: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 20,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
-                          borderSide: const BorderSide(color: Colors.black),
+                          borderSide: BorderSide(color: Colors.black),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
@@ -129,14 +128,13 @@ class _UserLoginState extends State<GuardLogin> {
                       height: 20,
                     ),
                     TextField(
-                      controller: Password,
+                      controller: passwordController,
                       decoration: InputDecoration(
                         hintText: "Enter Password",
-                        label: const Text(
-                          "Userpassword",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 20),
+                        labelText: "User password",
+                        labelStyle: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 20,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
@@ -147,9 +145,21 @@ class _UserLoginState extends State<GuardLogin> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
-                          borderSide: const BorderSide(color: Colors.black),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                          icon: Icon(
+                            _obscureText ? Icons.visibility : Icons.visibility_off,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
+                      obscureText: !_obscureText,
                     )
                   ],
                 ),
@@ -163,9 +173,10 @@ class _UserLoginState extends State<GuardLogin> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Color(0xff5b6378),
-                      border: Border.all(color: Colors.black)),
+                    borderRadius: BorderRadius.circular(30),
+                    color: Color(0xff5b6378),
+                    border: Border.all(color: Colors.black),
+                  ),
                   height: 50,
                   width: 100,
                   child: const Center(
@@ -200,9 +211,10 @@ class _UserLoginState extends State<GuardLogin> {
                     child: const Text(
                       "Register Now !!",
                       style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold),
+                        fontSize: 18,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   )
                 ],
@@ -214,3 +226,5 @@ class _UserLoginState extends State<GuardLogin> {
     );
   }
 }
+
+

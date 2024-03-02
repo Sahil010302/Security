@@ -37,9 +37,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: (FirebaseAuth.instance.currentUser != null)
-          ? UserHome()
+          ? Home()
           : LoginPage(),
+      // home: Checkout(),
+          
       // home: LoginPage(),
     );
   }

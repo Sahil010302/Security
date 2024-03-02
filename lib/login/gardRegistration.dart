@@ -21,6 +21,25 @@ class _UserRegiState extends State<GuardRegis> {
   TextEditingController Phone = new TextEditingController();
   TextEditingController Work = new TextEditingController();
 
+  void showRegistrationSnackBar() {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      duration: Duration(seconds: 5),
+      backgroundColor: Colors.green,
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.all(15),
+      content: Text(
+        "Registered successfully!",
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  );
+}
+
+
   void GuardDetail() async {
     String email = Email.text.trim();
     String password = Password.text.trim();
@@ -98,6 +117,7 @@ class _UserRegiState extends State<GuardRegis> {
         if (userCredential.user != null) {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => GuardLogin()));
+              showRegistrationSnackBar();
         }
       } on FirebaseAuthException catch (ex) {
         print(ex.code.toString());
@@ -297,6 +317,6 @@ TextField guardDetails(
 
 
 
-//******************************************** */
+
 
 

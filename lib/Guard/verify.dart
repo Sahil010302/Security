@@ -133,7 +133,7 @@ class _VerifyState extends State<Verify> {
               ),
               vendorDetails(
                 controller: id,
-                hinttext: "Enter Vendors Name",
+                hinttext: "Enter id",
                 labletext: "ID",
                 icons: const Icon(
                   CupertinoIcons.number_circle,
@@ -145,7 +145,7 @@ class _VerifyState extends State<Verify> {
               ),
               vendorDetails(
                 controller: code,
-                hinttext: "Enter Vendors Name",
+                hinttext: "Enter Vendors Code",
                 labletext: "Code",
                 icons: const Icon(
                   CupertinoIcons.number,

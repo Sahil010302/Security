@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,7 +44,7 @@ class _CheckInState extends State<CheckIn> {
       "name": Name,
       "profilePic": url,
       "Checkin": checkIn,
-      "Checkout": '',
+    
       "category": widget.current,
       "flatNo": FlatNo[0],
     };
