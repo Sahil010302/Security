@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:security/Guard/updatedetails.dart';
 import 'package:security/Guard/vendorform.dart';
 import 'package:security/Guard/view.dart';
+import 'package:security/User/visiting.dart';
 
 class UserHome extends StatelessWidget {
   const UserHome({super.key});
@@ -243,12 +244,12 @@ class Drawers extends StatelessWidget {
             }),
             Divider(),
             listtile("Daily Logs", () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => Verify(),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Visiting(),
+                ),
+              );
             }),
             Divider(),
             listtile("Bills", () {
