@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:security/login/gardLogin.dart';
-import 'package:security/login/user.dart';
+import 'package:security/login/userlogin.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             const Text(
-              "GuardianLock",
+              "GuardianSuite",
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.w900,

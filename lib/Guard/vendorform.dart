@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:security/Guard/home.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter/services.dart';
 
 class VendorForm extends StatefulWidget {
   const VendorForm({super.key});
@@ -21,12 +20,12 @@ class VendorForm extends StatefulWidget {
 class _VendorFormState extends State<VendorForm> {
   TextEditingController Name = new TextEditingController();
   TextEditingController Date = new TextEditingController();
-
   TextEditingController BuildinagName = new TextEditingController();
   TextEditingController Flatno = new TextEditingController();
   TextEditingController AdharCard = new TextEditingController();
   TextEditingController Pin = new TextEditingController();
   TextEditingController ID = new TextEditingController();
+  TextEditingController PhoneNumber = new TextEditingController();
   TextEditingController updateFlatNo = new TextEditingController();
   File? profilepic;
 
@@ -52,6 +51,7 @@ class _VendorFormState extends State<VendorForm> {
     String adharCard = AdharCard.text.trim();
     String pinNo = Pin.text.trim();
     String id = ID.text.trim();
+    String phoneNumber = PhoneNumber.text.trim();
 
     if (name != "" &&
         date != "" &&
@@ -98,6 +98,7 @@ class _VendorFormState extends State<VendorForm> {
             "buldingName": buildingname,
             "adharCard": adharCard,
             "pin": pinNo,
+            "phoneNumber": phoneNumber, 
           };
           FirebaseFirestore.instance
               .collection("Vendor")
@@ -375,6 +376,18 @@ class _VendorFormState extends State<VendorForm> {
                   color: Colors.blue,
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              vendorDetails(
+                controller: PhoneNumber, 
+                hinttext: "Enter Phone Number", 
+                labletext: "Phone Number", 
+                icons: const Icon(
+                  CupertinoIcons.phone,
+                  color: Colors.blue,
+                ),
+              ),
               Container(
                 height: 60,
                 margin: EdgeInsets.only(top: 12, left: 45),
@@ -385,7 +398,7 @@ class _VendorFormState extends State<VendorForm> {
                 child: Row(
                   children: [
                     const SizedBox(
-                      width: 10,
+                      width: 8,
                     ),
                     const Text(
                       "Category",
@@ -394,7 +407,7 @@ class _VendorFormState extends State<VendorForm> {
                           color: Color.fromARGB(255, 16, 63, 101)),
                     ),
                     const SizedBox(
-                      width: 130,
+                      width: 100,
                     ),
                     DropdownButton<String>(
                       items: vendorList
@@ -432,6 +445,7 @@ class _VendorFormState extends State<VendorForm> {
               const SizedBox(
                 height: 10,
               ),
+
               vendorDetails(
                 controller: BuildinagName,
                 hinttext: "Enter Building Name  ",
@@ -459,7 +473,7 @@ class _VendorFormState extends State<VendorForm> {
               vendorDetails(
                 controller: Date,
                 hinttext: "22-02-2023 ",
-                labletext: "Date",
+                labletext: "Registration Date",
                 icons: const Icon(
                   CupertinoIcons.sun_dust,
                   color: Colors.blue,
@@ -518,36 +532,42 @@ class _VendorFormState extends State<VendorForm> {
     );
   }
 
-  TextField vendorDetails(
-      {required String hinttext,
-      required String labletext,
-      required Icon icons,
-      required TextEditingController controller}) {
+  TextField vendorDetails({
+  required String hinttext,
+  required String labletext,
+  required Icon icons,
+  required TextEditingController controller,
+}) {
     return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: hinttext,
-        labelText: labletext,
-        labelStyle: const TextStyle(color: Color.fromARGB(255, 16, 63, 101)),
-        icon: icons,
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black),
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black),
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
+    controller: controller,
+    keyboardType: labletext == "Phone Number" ? TextInputType.phone : null,
+    inputFormatters: labletext == "Phone Number" ? <TextInputFormatter>[
+      FilteringTextInputFormatter.digitsOnly // Allow only digits
+    ] : null,
+    decoration: InputDecoration(
+      hintText: hinttext,
+      labelText: labletext,
+      labelStyle: const TextStyle(color: Color.fromARGB(255, 16, 63, 101)),
+      icon: icons,
+      border: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
         ),
       ),
-    );
-  }
+      enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.black),
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.black),
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
+    ),
+   
+  );
+}
 }

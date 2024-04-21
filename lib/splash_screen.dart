@@ -1,59 +1,105 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SplashScreen(),
-    );
-  }
-}
+import 'package:security/login/landingpage.dart'; 
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _offsetAnimation;
+
   @override
   void initState() {
     super.initState();
-    // Simulate a long loading process and then navigate to the main screen
-    Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainScreen()),
-      );
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 4),
+    );
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset(0.0, -2.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+    _controller.forward().then((_) {
+     
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()), 
+        );
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // You can customize the splash screen UI here
-      body: Center(
-        child: Image.asset('images/flogo.png', // Replace 'your_logo.png' with the actual file name of your logo
-          width: 500, // Adjust width as needed
-          height: 500, // Adjust height as needed
+      backgroundColor: Colors.transparent,
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.white, Color.fromARGB(255, 156, 196, 214)],
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 40,
+              ),
+              SlideTransition(
+                position: _offsetAnimation,
+                child: Container(
+                  height: 350,
+                  child: Image.asset(
+                    "images/logo1.png",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              SlideTransition(
+                position: _offsetAnimation,
+                child: const Text(
+                  "GuardianSuite",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w900,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                child: Text(
+                  "Effortless Living, One App Away.!!",
+                  style: TextStyle(
+                    fontFamily: "Roboto",
+                    fontSize: 21,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-}
 
-class MainScreen extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Main Screen'),
-      ),
-      body: Center(
-        child: Text('Welcome to the Main Screen!'),
-      ),
-    );
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

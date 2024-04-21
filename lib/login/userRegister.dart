@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:security/login/gardLogin.dart';
-import 'package:security/login/user.dart';
+import 'package:security/login/userlogin.dart';
 
 class UserRegis extends StatefulWidget {
   const UserRegis({super.key});
@@ -20,7 +19,7 @@ class _UserRegiState extends State<UserRegis> {
   TextEditingController Age = new TextEditingController();
   TextEditingController Adhar = new TextEditingController();
   TextEditingController Phone = new TextEditingController();
-  TextEditingController Work = new TextEditingController();
+  TextEditingController Flat = new TextEditingController();
 
   void UserDetails() async {
     String email = Email.text.trim();
@@ -30,7 +29,7 @@ class _UserRegiState extends State<UserRegis> {
     String age = Age.text.trim();
     String adhar = Adhar.text.trim();
     String phone = Phone.text.trim();
-    String work = Work.text.trim();
+    String flat = Flat.text.trim();
 
     if (email != " " &&
         password != "" &&
@@ -39,20 +38,21 @@ class _UserRegiState extends State<UserRegis> {
         age != "" &&
         adhar != "" &&
         phone != " " &&
-        work != "") {
+        flat != "") {
       if (password == cpassword) {
-        Map<String, dynamic> Guard = {
+        Map<String, dynamic> User = {
           "name": name,
           "age": age,
           "adharNo": adhar,
-          "workAt": work,
+          "Flat": flat,
           "cpassword": cpassword,
           "email": email,
           "phoneNo": phone,
           "password": password
+          
         };
 
-        await FirebaseFirestore.instance.collection("UserDetails").add(Guard);
+        await FirebaseFirestore.instance.collection("UserDetails").add(User);
       }
     }
   }
@@ -159,7 +159,7 @@ class _UserRegiState extends State<UserRegis> {
                     const SizedBox(
                       height: 15,
                     ),
-                    guardDetails(
+                    userDetails(
                       controller: Name,
                       labletext: "Name",
                       hinttext: "Enter your name",
@@ -168,7 +168,7 @@ class _UserRegiState extends State<UserRegis> {
                     const SizedBox(
                       height: 15,
                     ),
-                    guardDetails(
+                    userDetails(
                       controller: Age,
                       labletext: "Age",
                       hinttext: "Enter your age",
@@ -177,7 +177,7 @@ class _UserRegiState extends State<UserRegis> {
                     const SizedBox(
                       height: 15,
                     ),
-                    guardDetails(
+                    userDetails(
                       controller: Adhar,
                       labletext: "AdharCard Number ",
                       hinttext: "Enter your adhar number",
@@ -186,7 +186,7 @@ class _UserRegiState extends State<UserRegis> {
                     const SizedBox(
                       height: 15,
                     ),
-                    guardDetails(
+                    userDetails(
                       controller: Phone,
                       labletext: "Phone Number ",
                       hinttext: "Enter your phone number",
@@ -195,8 +195,8 @@ class _UserRegiState extends State<UserRegis> {
                     const SizedBox(
                       height: 15,
                     ),
-                    guardDetails(
-                      controller: Work,
+                    userDetails(
+                      controller: Flat,
                       labletext: "Flat No  ",
                       hinttext: "Enter your flat no",
                       icons: const Icon(CupertinoIcons.location),
@@ -204,7 +204,7 @@ class _UserRegiState extends State<UserRegis> {
                     const SizedBox(
                       height: 15,
                     ),
-                    guardDetails(
+                    userDetails(
                       controller: Email,
                       labletext: " Email ",
                       hinttext: "Enter your email id ",
@@ -213,7 +213,7 @@ class _UserRegiState extends State<UserRegis> {
                     const SizedBox(
                       height: 15,
                     ),
-                    guardDetails(
+                    userDetails(
                       controller: Password,
                       labletext: "Password  ",
                       hinttext: " Enter your password",
@@ -222,7 +222,7 @@ class _UserRegiState extends State<UserRegis> {
                     const SizedBox(
                       height: 15,
                     ),
-                    guardDetails(
+                    userDetails(
                       controller: cPassword,
                       labletext: "Confirm Password  ",
                       hinttext: " Enter your password",
@@ -269,7 +269,7 @@ class _UserRegiState extends State<UserRegis> {
   }
 }
 
-TextField guardDetails(
+TextField userDetails(
     {required String hinttext,
     required String labletext,
     required Icon icons,
@@ -302,9 +302,3 @@ TextField guardDetails(
     ),
   );
 }
-
-
-
-//******************************************** */
-
-

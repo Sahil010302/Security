@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:security/Guard/home.dart';
 import 'package:security/User/home.dart';
-import 'package:security/login/gardRegistration.dart';
 import 'package:security/login/userRegister.dart';
 
 class UserLogin extends StatefulWidget {
@@ -15,42 +13,56 @@ class UserLogin extends StatefulWidget {
 class _UserLoginState extends State<UserLogin> {
   TextEditingController Email = new TextEditingController();
   TextEditingController Password = new TextEditingController();
+  bool _obscureText = true; // Added variable for toggling password visibility
 
   void login() async {
-    String email = Email.text.trim();
-    String password = Password.text.trim();
-    if (email == "" || password == "") {
-      const incompleteFields = SnackBar(
+  String email = Email.text.trim();
+  String password = Password.text.trim();
+  if (email.isEmpty || password.isEmpty) {
+    // Show a SnackBar if any field is empty
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
         duration: Duration(seconds: 3),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.all(15),
         content: Text(
-          "Fill all the field",
+          "Fill all the fields",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
-      );
-    } else {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
-        if (userCredential.user != null) {
-          Navigator.popUntil(context, (route) => route.isFirst);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => UserHome(),
-            ),
-          );
-        }
-      } on FirebaseAuthException catch (ex) {
-        print(ex.code.toString());
+      ),
+    );
+  } else {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      if (userCredential.user != null) {
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => UserHome(),),);
       }
+    } on FirebaseAuthException catch (ex) {
+       ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.all(15),
+          content: Text(
+            "Invalid credentials. Please try again.",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      );
+      print(ex.code.toString());
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +79,12 @@ class _UserLoginState extends State<UserLogin> {
             color: Colors.transparent,
           ),
           child: Image.asset(
-            "images/logo.png",
+            "images/logo1.png",
             fit: BoxFit.cover,
           ),
         ),
         title: const Text(
-          "GuardianLock",
+          "User Login",
           style: TextStyle(fontFamily: "Roboto", fontSize: 25),
         ),
         centerTitle: true,
@@ -81,14 +93,7 @@ class _UserLoginState extends State<UserLogin> {
       body: SingleChildScrollView(
         child: Container(
           height: 900,
-          decoration: const BoxDecoration(color: Colors.white
-              // gradient: LinearGradient(
-              //   colors: [
-              //     Colors.blue,
-              //     Colors.white,
-              //   ],
-              // ),
-              ),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Column(
             children: [
               const SizedBox(
@@ -153,8 +158,20 @@ class _UserLoginState extends State<UserLogin> {
                           borderRadius: BorderRadius.circular(25),
                           borderSide: const BorderSide(color: Colors.black),
                         ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                          icon: Icon(
+                            _obscureText ? Icons.visibility : Icons.visibility_off,
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
-                    )
+                      obscureText: !_obscureText,
+                    ), // Added closing parenthesis here
                   ],
                 ),
               ),

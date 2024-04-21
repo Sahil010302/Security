@@ -25,7 +25,7 @@ class _DetailsState extends State<Details> {
 
   String Name = "";
   String Adhadno = "";
-  String VisitingTo = "";
+  String PhoneNumber = "";
   String BuildingName = "";
   List FlatNo = [];
   String url = "";
@@ -50,14 +50,14 @@ class _DetailsState extends State<Details> {
         String adharCard = data['adharCard'] ?? "";
         String name = data['name'] ?? "";
         String date = data['date'] ?? "";
-        String visiting = data['visiting'] ?? "";
+        String phoneNumber = data['phoneNumber'] ?? "";
         String buildingName = data['buldingName'] ?? "";
         String profilePic = data['profilePic'] ?? "";
 
         setState(() {
           Name = name;
           Adhadno = adharCard;
-          VisitingTo = visiting;
+          PhoneNumber = phoneNumber;
           BuildingName = buildingName;
           FlatNo = flatNo;
           url = profilePic;
@@ -74,7 +74,7 @@ class _DetailsState extends State<Details> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 182, 220, 238),
-        title: const Text("Verify Details"),
+        title: const Text("Vendor Details"),
       ),
       body: SingleChildScrollView(
           child: SafeArea(
@@ -144,26 +144,26 @@ class _DetailsState extends State<Details> {
                     ),
                     RichText(
                       text: TextSpan(
-                        style: const TextStyle(
+                       style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 25,
-                        ),
-                        children: [
-                          const TextSpan(text: "Visiting To :"),
+                        fontSize: 25,
+                     ),
+                         children: [
+                          const TextSpan(text: "Phone Number :"),
                           TextSpan(
-                            text: VisitingTo,
+                            text: PhoneNumber,
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.normal,
-                            ),
+                           ),
                           ),
-                        ],
+                       ],
                       ),
-                    ),
+                  ),
                     const SizedBox(
-                      height: 8,
-                    ),
+                    height: 8,
+                   ),
                     RichText(
                       text: TextSpan(
                         style: const TextStyle(

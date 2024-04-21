@@ -1,78 +1,69 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
 import 'package:security/login/gardLogin.dart';
 
 class GuardRegis extends StatefulWidget {
-  const GuardRegis({super.key});
+  const GuardRegis({Key? key}) : super(key: key);
 
   @override
   State<GuardRegis> createState() => _UserRegiState();
 }
 
 class _UserRegiState extends State<GuardRegis> {
-  TextEditingController Email = new TextEditingController();
-  TextEditingController Password = new TextEditingController();
-  TextEditingController cPassword = new TextEditingController();
-  TextEditingController Name = new TextEditingController();
-  TextEditingController Age = new TextEditingController();
-  TextEditingController Adhar = new TextEditingController();
-  TextEditingController Phone = new TextEditingController();
-  TextEditingController Work = new TextEditingController();
+  TextEditingController Email = TextEditingController();
+  TextEditingController Password = TextEditingController();
+  TextEditingController cPassword = TextEditingController();
+  TextEditingController Name = TextEditingController();
+  TextEditingController Age = TextEditingController();
+  TextEditingController Adhar = TextEditingController();
+  TextEditingController Phone = TextEditingController();
+  TextEditingController Work = TextEditingController();
 
   void showRegistrationSnackBar() {
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
-      duration: Duration(seconds: 5),
-      backgroundColor: Colors.green,
-      behavior: SnackBarBehavior.floating,
-      margin: EdgeInsets.all(15),
-      content: Text(
-        "Registered successfully!",
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(15),
+        content: Text(
+          "Registered successfully!",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   void GuardDetail() async {
-    String email = Email.text.trim();
-    String password = Password.text.trim();
-    String cpassword = cPassword.text.trim();
     String name = Name.text.trim();
     String age = Age.text.trim();
     String adhar = Adhar.text.trim();
     String phone = Phone.text.trim();
     String work = Work.text.trim();
 
-    if (email != " " &&
-        password != "" &&
-        cpassword != "" &&
-        name != " " &&
-        age != "" &&
-        adhar != "" &&
-        phone != " " &&
-        work != "") {
-      if (password == cpassword) {
-        Map<String, dynamic> Guard = {
-          "name": name,
-          "age": age,
-          "adharNo": adhar,
-          "workAt": work,
-          "cpassword": cpassword,
-          "email": email,
-          "phoneNo": phone,
-          "password": password
-        };
+    Map<String, dynamic> guard = {
+      "name": name,
+      "age": age,
+      "adharNo": adhar,
+      "workAt": work,
+      "phoneNo": phone,
+    };
 
-        await FirebaseFirestore.instance.collection("GuardDetails").add(Guard);
-      }
-    }
+    await FirebaseFirestore.instance.collection("GuardDetails").add(guard);
+  }
+
+  String hashPassword(String password) {
+    var bytes = utf8.encode(password); // Encode the password as UTF-8
+    var digest = sha256.convert(bytes); // Hash the password using SHA-256
+    return digest.toString(); // Return the hashed password as a string
   }
 
   void Createaccount() async {
@@ -112,12 +103,17 @@ class _UserRegiState extends State<GuardRegis> {
       ScaffoldMessenger.of(context).showSnackBar(incompleteFields);
     } else {
       try {
+        String hashedPassword = hashPassword(password);
+
         UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
+            .createUserWithEmailAndPassword(email: email, password: hashedPassword);
         if (userCredential.user != null) {
+          GuardDetail();
+          showRegistrationSnackBar();
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => GuardLogin()));
-              showRegistrationSnackBar();
+            context,
+            MaterialPageRoute(builder: (context) => GuardLogin()),
+          );
         }
       } on FirebaseAuthException catch (ex) {
         print(ex.code.toString());
@@ -131,7 +127,7 @@ class _UserRegiState extends State<GuardRegis> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          "User Registration",
+          "Guard Registration",
           style: TextStyle(fontFamily: "Roboto", fontSize: 25),
         ),
         centerTitle: true,
@@ -233,6 +229,7 @@ class _UserRegiState extends State<GuardRegis> {
                       labletext: "Password  ",
                       hinttext: " Enter your password",
                       icons: const Icon(CupertinoIcons.captions_bubble),
+                      obscureText: true,
                     ),
                     const SizedBox(
                       height: 15,
@@ -242,6 +239,7 @@ class _UserRegiState extends State<GuardRegis> {
                       labletext: "Confirm Password  ",
                       hinttext: " Enter your password",
                       icons: const Icon(CupertinoIcons.checkmark_seal),
+                      obscureText: true,
                     ),
                     const SizedBox(
                       height: 15,
@@ -249,7 +247,6 @@ class _UserRegiState extends State<GuardRegis> {
                     GestureDetector(
                       onTap: () {
                         Createaccount();
-                        GuardDetail();
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -285,9 +282,11 @@ TextField guardDetails(
     {required String hinttext,
     required String labletext,
     required Icon icons,
-    required TextEditingController controller}) {
+    required TextEditingController controller,
+    bool obscureText = false}) {
   return TextField(
     controller: controller,
+    obscureText: obscureText,
     decoration: InputDecoration(
       hintText: hinttext,
       labelText: labletext,
@@ -314,9 +313,3 @@ TextField guardDetails(
     ),
   );
 }
-
-
-
-
-
-

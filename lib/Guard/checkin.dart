@@ -1,13 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:security/Guard/home.dart';
-import 'package:security/const.dart';
+
 
 class CheckIn extends StatefulWidget {
   final String Id;
@@ -33,7 +31,7 @@ class _CheckInState extends State<CheckIn> {
 
   String Name = "";
   String Adhadno = "";
-  String VisitingTo = "";
+//  String VisitingTo = "";
   String BuildingName = "";
   List FlatNo = [];
   String url = "";
@@ -100,7 +98,7 @@ class _CheckInState extends State<CheckIn> {
         setState(() {
           Name = name;
           Adhadno = adharCard;
-          VisitingTo = visiting;
+         // VisitingTo = visiting;
           BuildingName = buildingName;
           FlatNo = flatNo;
           url = profilePic;
@@ -196,7 +194,7 @@ class _CheckInState extends State<CheckIn> {
                     const SizedBox(
                       height: 8,
                     ),
-                    RichText(
+                   /* RichText(
                       text: TextSpan(
                         style: const TextStyle(
                           color: Colors.black,
@@ -217,7 +215,7 @@ class _CheckInState extends State<CheckIn> {
                     ),
                     const SizedBox(
                       height: 8,
-                    ),
+                    ),*/
                     RichText(
                       text: TextSpan(
                         style: const TextStyle(

@@ -1,12 +1,55 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:security/Guard/updatedetails.dart';
 import 'package:security/Guard/vendorform.dart';
 import 'package:security/Guard/view.dart';
+import 'package:security/login/userlogin.dart';
 
-class UserHome extends StatelessWidget {
+
+class UserHome extends StatefulWidget {
   const UserHome({super.key});
+
+  @override
+  State<UserHome> createState() => _UserHomeState();
+}
+
+final user = FirebaseAuth.instance.currentUser!;
+String emailid = user.email.toString();
+
+String username = "";
+String flatNo = "";
+
+class _UserHomeState extends State<UserHome> {
+  Future<void> getuserdata() async {
+    String emailid = FirebaseAuth.instance.currentUser?.email ?? '';
+
+    if (emailid.isNotEmpty) {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('UserDetails')
+          .where('email', isEqualTo: emailid)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        DocumentSnapshot snapshot = querySnapshot.docs.first;
+        Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
+
+        setState(() {
+          username = userData['name'];
+          flatNo = userData['Flat'];
+        });
+      } else {
+        print('No user found with email: $emailid');
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getuserdata();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +60,7 @@ class UserHome extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
           ),
-          margin: EdgeInsets.only(left: 10, top: 5, bottom: 5),
+          margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Image.network(
@@ -32,107 +75,193 @@ class UserHome extends StatelessWidget {
         //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
         // ),
         // centerTitle: true,
-        title: const Padding(
-          padding: EdgeInsets.only(top: 8.0),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
           child: ListTile(
-            title: Text("Hello!! Manoj Pandey. "),
-            titleTextStyle: TextStyle(
+            title: Text(username),
+            titleTextStyle: const TextStyle(
                 fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-            subtitle: Text("Flat No 101"),
+            subtitle: Text("Flat No ${flatNo}"),
           ),
         ),
         backgroundColor: const Color.fromARGB(255, 182, 220, 238),
       ),
-      endDrawer: Drawers(),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  VendorsContainer(
-                    "01) MilkMan",
-                    "milkman.png",
-                    context,
-                    "01",
-                  ),
-                  VendorsContainer(
-                    "02) NewsPaper",
-                    "newspaper.jpg",
-                    context,
-                    "02",
-                  ),
-                  VendorsContainer(
-                    "03) Maid",
-                    "maid.png",
-                    context,
-                    "03",
-                  ),
-                  VendorsContainer(
-                    "04) CarWashing",
-                    "car.png",
-                    context,
-                    "04",
-                  ),
-                  VendorsContainer(
-                    "05) Laundary",
-                    "laundary.jpg",
-                    context,
-                    "05",
-                  ),
-                  VendorsContainer(
-                    "06) Tutorial",
-                    "tutorial.jpg",
-                    context,
-                    "06",
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(15),
-            height: 170,
-            width: 500,
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 182, 220, 238),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Colors.black,
-              ),
-            ),
-            child: const Column(
+      endDrawer: const Drawers(),
+      body: FutureBuilder<void>(
+          future: getuserdata(),
+          builder: (context, snapshot) {
+            return Column(
               children: [
-                Text(
-                  "Important Notices",
-                  style: TextStyle(
-                    fontFamily: "Oswald",
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        VendorsContainer(
+                          "01) MilkMan",
+                          "milkman.png",
+                          context,
+                          "01",
+                        ),
+                        VendorsContainer(
+                          "02) NewsPaper",
+                          "newspaper.jpg",
+                          context,
+                          "02",
+                        ),
+                        VendorsContainer(
+                          "03) Maid",
+                          "maid.png",
+                          context,
+                          "03",
+                        ),
+                        VendorsContainer(
+                          "04) CarWashing",
+                          "car.png",
+                          context,
+                          "04",
+                        ),
+                        VendorsContainer(
+                          "05) Laundary",
+                          "laundary.jpg",
+                          context,
+                          "05",
+                        ),
+                        VendorsContainer(
+                          "06) Tutorial",
+                          "tutorial.jpg",
+                          context,
+                          "06",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                SingleChildScrollView(
-                  child: Column(
+                Container(
+                  margin: const EdgeInsets.all(15),
+                  height: 170,
+                  width: 500,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 182, 220, 238),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.black,
+                    ),
+                  ),
+                  child: const Column(
                     children: [
+                      Text(
+                        "Important Notices",
+                        style: TextStyle(
+                          fontFamily: "Oswald",
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text("Notice1."),
+                            ),
+                          ],
+                        ),
+                      ),
                       ListTile(
-                        title: Text("Notice1."),
+                        title: Text("Notice!"),
                       ),
                     ],
                   ),
                 ),
-                ListTile(
-                  title: Text("Notice!"),
+                StreamBuilder<QuerySnapshot>(
+                  stream: flatNo != null
+                      ? FirebaseFirestore.instance
+                          .collection('Visiting')
+                          .doc(flatNo)
+                          .collection(flatNo)
+                          .snapshots()
+                      : null,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      print(flatNo);
+                      return ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final reqdata = snapshot.data!.docs[index].data()
+                              as Map<String, dynamic>;
+
+                          String name = '${reqdata['name']}';
+                          String category = '${reqdata['category']}';
+
+                          String checkin = '${reqdata['Checkin']}';
+                          String checkout = '${reqdata['Checkout']}';
+
+                          String profilepic = reqdata['profilePic'];
+
+                          return Container(
+                            margin: EdgeInsets.all(15),
+                            height: 80,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.black),
+                              color: Color.fromARGB(255, 182, 220, 238),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0, top: 2),
+                                  child: CircleAvatar(
+                                    radius: 30,
+                                    backgroundImage: NetworkImage(profilepic),
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Name : ${name}",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    
+                                        Text(
+                                          "Checkin Time : ${checkin}",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                       Text(
+                                          "Checkout Time : ${checkout}",
+                                          style: TextStyle(fontSize: 17),
+                                        ), 
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return const SizedBox(
+                        child: Text('No member'),
+                      );
+                    }
+                  },
                 ),
               ],
-            ),
-          ),
-        ],
-      ),
+            );
+          }),
     );
   }
 
@@ -175,19 +304,23 @@ class UserHome extends StatelessWidget {
   }
 }
 
-class Drawers extends StatelessWidget {
+class Drawers extends StatefulWidget {
   const Drawers({super.key});
 
+  @override
+  State<Drawers> createState() => _DrawersState();
+}
+
+class _DrawersState extends State<Drawers> {
   @override
   Widget build(BuildContext context) {
     void signUserOut() async {
       FirebaseAuth.instance.signOut().then((value) {
         Navigator.of(context).popUntil((route) => route.isFirst);
+         Navigator.push(context, MaterialPageRoute(builder: (context) => UserLogin()));
       });
     }
 
-    final user = FirebaseAuth.instance.currentUser!;
-    String email = user.email.toString();
     return Drawer(
       backgroundColor: Colors.white,
       child: SingleChildScrollView(
@@ -204,10 +337,10 @@ class Drawers extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 182, 220, 238),
               ),
-              accountName: const Text(
+              accountName: Text(
                 // user.displayName!,
-                "Manoj Pandey",
-                style: TextStyle(
+                username,
+                style: const TextStyle(
                   fontSize: 20,
                   color: Colors.black,
                   fontFamily: "Roboto",
@@ -215,7 +348,7 @@ class Drawers extends StatelessWidget {
                 ),
               ),
               accountEmail: Text(
-                user.email!,
+                emailid,
                 style: const TextStyle(
                   fontSize: 13,
                   color: Colors.black87,
@@ -228,29 +361,29 @@ class Drawers extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => VendorForm(),
+                  builder: (context) => const VendorForm(),
                 ),
               );
             }),
-            Divider(),
+            const Divider(),
             listtile("Update Details", () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => UpdateDetails(),
+                  builder: (context) => const UpdateDetails(),
                 ),
               );
             }),
-            Divider(),
+            const Divider(),
             listtile("Daily Logs", () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => Verify(),
-              //   ),
-              // );
+              //Navigator.push(
+                //context,
+                //MaterialPageRoute(
+                //  builder: (context) => Visiting(),
+               // ),
+             // );
             }),
-            Divider(),
+            const Divider(),
             listtile("Bills", () {
               // Navigator.push(
               //   context,
@@ -259,7 +392,7 @@ class Drawers extends StatelessWidget {
               //   ),
               // );
             }),
-            Divider(),
+            const Divider(),
             listtile(
               "Check Out Log",
               () {
@@ -269,7 +402,7 @@ class Drawers extends StatelessWidget {
                 // );
               },
             ),
-            Divider(),
+            const Divider(),
             const SizedBox(
               height: 20,
             ),

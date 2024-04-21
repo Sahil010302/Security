@@ -23,12 +23,12 @@ class ViewDetails extends StatelessWidget {
             color: Colors.transparent,
           ),
           child: Image.asset(
-            "images/logo.png",
+            "images/logo1.png",
             fit: BoxFit.cover,
           ),
         ),
         title: const Text(
-          "GuardianLock",
+          "View All Vendors",
           style: TextStyle(fontFamily: "Roboto", fontSize: 25),
         ),
         centerTitle: true,

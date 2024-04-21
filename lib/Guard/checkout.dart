@@ -59,7 +59,14 @@ class _CheckoutState extends State<Checkout> {
         .collection("CheckOut")
         .doc(date)
         .collection(date)
-        .doc(checkIn_Time) // Assuming the checkIn_Time serves as a unique identifier
+        .doc(checkIn_Time) 
+        .set(checkoutTimeUpdate);
+
+    await FirebaseFirestore.instance
+        .collection("Visiting")
+        .doc(Flat)
+        .collection(Flat)
+        .doc(checkIn_Time) 
         .set(checkoutTimeUpdate);
   }
 

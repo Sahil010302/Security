@@ -1,14 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+//import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:security/Guard/checkout.dart';
 import 'package:security/Guard/logs.dart';
 import 'package:security/Guard/updatedetails.dart';
 import 'package:security/Guard/vendorform.dart';
-import 'package:line_icons/line_icons.dart';
+//import 'package:line_icons/line_icons.dart';
 import 'package:security/Guard/verify.dart';
 import 'package:security/Guard/view.dart';
+import 'package:security/Guard/visitorform.dart';
+import 'package:security/Guard/visitorlogs.dart';
+import 'package:security/login/gardLogin.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -18,7 +21,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
+ // int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +141,7 @@ class _HomeState extends State<Home> {
                       }),
                   VendorsContainer(
                       image: "tutorial.jpg",
-                      name: "Tutorial",
+                      name: "Tutor",
                       function: () {
                         Navigator.push(
                           context,
@@ -155,7 +158,7 @@ class _HomeState extends State<Home> {
               const Padding(
                 padding: EdgeInsets.only(left: 22, top: 15),
                 child: Text(
-                  " XYZ Visitors",
+                  "Delivery Agents",
                   style: TextStyle(fontSize: 22),
                 ),
               ),
@@ -164,25 +167,17 @@ class _HomeState extends State<Home> {
                 children: [
                   VendorsContainer(
                       image: "Amazon.png",
-                      name: "Amazon Delivery",
-                      function: () {}),
-                  VendorsContainer(
-                      image: "Zomato.png",
-                      name: "Zomato Delivery",
-                      function: () {})
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  VendorsContainer(
-                      image: "Amazon.png",
-                      name: "Amazon Delivery",
-                      function: () {}),
-                  VendorsContainer(
-                      image: "Zomato.png",
-                      name: "Zomato Delivery",
-                      function: () {})
+                      name: "Delivery",
+                      function: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VisitorLogs(
+                            ),
+                          ),
+                        );
+                      }),
+                 
                 ],
               ),
             ],
@@ -191,96 +186,94 @@ class _HomeState extends State<Home> {
       ),
 
       // Bottom Nav bar
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 20,
-              color: Colors.black.withOpacity(.1),
-            )
-          ],
-        ),
-        child: SafeArea(
-          child: Container(
-            color: const Color.fromARGB(255, 182, 220, 238),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-              child: GNav(
-                rippleColor: Colors.grey[300]!,
-                hoverColor: Colors.grey[100]!,
-                gap: 8,
-                activeColor: Colors.black,
-                iconSize: 24,
-                backgroundColor: const Color.fromARGB(255, 182, 220, 238),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                duration: const Duration(milliseconds: 400),
-                tabBackgroundColor: Colors.grey[100]!,
-                color: Colors.black,
-                tabs: [
-                  GButton(
-                    icon: LineIcons.home,
-                    text: 'Home',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Home(),
-                        ),
-                      );
-                    },
-                  ),
-                  GButton(
-                    icon: LineIcons.book,
-                    text: 'Register',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VendorForm(),
-                        ),
-                      );
-                    },
-                  ),
-                  GButton(
-                    icon: LineIcons.searchengin,
-                    text: 'Update',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UpdateDetails(),
-                        ),
-                      );
-                    },
-                  ),
-                  GButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Verify(),
-                        ),
-                      );
-                    },
-                    icon: LineIcons.user,
-                    text: 'Profile',
-                  ),
-                ],
-                selectedIndex: _selectedIndex,
-                onTabChange: (index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+      // bottomNavigationBar: Container(
+      //   decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     boxShadow: [
+      //       BoxShadow(
+      //         blurRadius: 20,
+      //         color: Colors.black.withOpacity(.1),
+      //       )
+      //     ],
+      //   ),
+      //   child: SafeArea(
+      //     child: Container(
+      //       color: const Color.fromARGB(255, 182, 220, 238),
+      //       child: Padding(
+      //         padding:
+      //             const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+      //         child: GNav(
+      //           rippleColor: Colors.grey[300]!,
+      //           hoverColor: Colors.grey[100]!,
+      //           gap: 8,
+      //           activeColor: Colors.black,
+      //           iconSize: 24,
+      //           backgroundColor: const Color.fromARGB(255, 182, 220, 238),
+      //           padding:
+      //               const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      //           duration: const Duration(milliseconds: 400),
+      //           tabBackgroundColor: Colors.grey[100]!,
+      //           color: Colors.black,
+      //           tabs: [
+      //             GButton(
+      //               icon: LineIcons.home,
+      //               text: 'Home',
+      //               onPressed: () {
+      //                 Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(
+      //                     builder: (context) => Home(),
+      //                   ),
+      //                 );
+      //               },
+      //             ),
+      //             GButton(
+      //               icon: LineIcons.book,
+      //               text: 'Register',
+      //               onPressed: () {
+      //                 Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(
+      //                     builder: (context) => VendorForm(),
+      //                   ),
+      //                 );
+      //               },
+      //             ),
+      //             GButton(
+      //               icon: LineIcons.searchengin,
+      //               text: 'Update',
+      //               onPressed: () {
+      //                 Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(
+      //                     builder: (context) => UpdateDetails(),
+      //                   ),
+      //                 );
+      //               },
+      //             ),
+      //             GButton(
+      //               onPressed: () {
+      //                 Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(
+      //                     builder: (context) => Verify(),
+      //                   ),
+      //                 );
+      //               },
+      //               icon: LineIcons.user,
+      //               text: 'Profile',
+      //             ),
+      //           ],
+      //           selectedIndex: _selectedIndex,
+      //           onTabChange: (index) {
+      //             setState(() {
+      //               _selectedIndex = index;
+      //             });
+      //           },
+      //         ),
+      //       ),
+      //     ),
+        );
   }
 
   Container VendorsContainer(
@@ -290,7 +283,7 @@ class _HomeState extends State<Home> {
     return Container(
       margin: EdgeInsets.all(8),
       height: 220,
-      width: 180,
+      width: 160,
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(20),
@@ -324,11 +317,12 @@ class Drawers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void signUserOut() async {
-      FirebaseAuth.instance.signOut().then((value) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      });
-    }
+    void signUserOut(BuildContext context) async {
+  await FirebaseAuth.instance.signOut();
+  Navigator.of(context).popUntil((route) => route.isFirst);
+ // Navigator.pushReplacementNamed(context,'/gardLogin');
+ Navigator.push(context, MaterialPageRoute(builder: (context) => GuardLogin()));
+}
 
     final user = FirebaseAuth.instance.currentUser!;
     String email = user.email.toString();
@@ -349,7 +343,7 @@ class Drawers extends StatelessWidget {
                 color: Color.fromARGB(255, 182, 220, 238),
               ),
               accountName: Text(
-                "Raj",
+                "Andrew",
                 style: const TextStyle(
                   fontSize: 20,
                   color: Colors.black,
@@ -367,6 +361,15 @@ class Drawers extends StatelessWidget {
                 ),
               ),
             ),
+            listtile("Visitor Form", () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VisitorForm(),
+                ),
+              );
+            }),
+            Divider(),
             listtile("Vendor Form", () {
               Navigator.push(
                 context,
@@ -415,16 +418,17 @@ class Drawers extends StatelessWidget {
             Divider(),
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateColor.resolveWith((states) => Colors.red)),
-              onPressed: () {
-                signUserOut();
-              },
-              child: const Text(
-                "Sign Out",
-                style: TextStyle(color: Colors.white),
+              backgroundColor: MaterialStateColor.resolveWith((states) => Colors.red)
               ),
-            ),
+              onPressed: () {
+              signUserOut(context);
+            },
+            child: const Text(
+            "Sign Out",
+            style: TextStyle(color: Colors.white),
+  ),
+),
+            
           ],
         ),
       ),

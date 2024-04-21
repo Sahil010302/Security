@@ -42,7 +42,7 @@ class _VerifyState extends State<Verify> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.success,
-        text: ' successfully ',
+        text: ' Details verified successfully ',
         autoCloseDuration: const Duration(seconds: 3),
         showConfirmBtn: false,
       );
@@ -105,7 +105,7 @@ class _VerifyState extends State<Verify> {
                           color: Color.fromARGB(255, 16, 63, 101)),
                     ),
                     const SizedBox(
-                      width: 130,
+                      width: 100,
                     ),
                     DropdownButton<String>(
                       items: vendorList

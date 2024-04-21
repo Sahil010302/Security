@@ -48,6 +48,21 @@ class _UserLoginState extends State<GuardLogin> {
           );
         }
       } on FirebaseAuthException catch (ex) {
+         ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.all(15),
+          content: Text(
+            "Invalid credentials. Please try again.",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      );
         print(ex.code.toString());
       }
     }
@@ -68,12 +83,12 @@ class _UserLoginState extends State<GuardLogin> {
             color: Colors.transparent,
           ),
           child: Image.asset(
-            "images/logo.png",
+            "images/logo1.png",
             fit: BoxFit.cover,
           ),
         ),
         title: const Text(
-          "GuardianLock",
+          "Guard Login",
           style: TextStyle(fontFamily: "Roboto", fontSize: 25),
         ),
         centerTitle: true,
